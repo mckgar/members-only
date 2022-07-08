@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up</title>
+</head>
+<body>
+  <h1>Sign Up</h1>
+
+  <form action="" method="post">
+    <div class="form-item">
+      <label for="first_name">First Name:</label>
+      <input
+        type="text"
+        name="first_name"
+        id="first_name"
+        value=""
+      >
+    </div>
+    <div class="form-item">
+      <label for="surname">Surname:</label>
+      <input type="text" name="surname" id="surname">
+    </div>
+    <div class="form-item">
+      <label for="username">Username:</label>
+      <input type="text" name="username" id="username">
+    </div>
+    <div class="form-item">
+      <label for="password">Password:</label>
+      <input type="password" name="password" id="password" minlength="8">
+    </div>
+    <div class="form-item">
+      <label for="confirm-password">Confirm Password:</label>
+      <input type="password" name="confirm-password" id="confirm-password" minlength="8">
+    </div>
+    <button type="submit">Sign Up</button>
+  </form>
+  <% if (!(typeof errors === 'undefined')) { %>
+    <ul>
+      <% for (error of errors) { %>
+        <li><%= error.msg %></li>
+      <% } %>
+    </ul>
+  <% } %>
+</body>
+</html>
