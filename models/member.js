@@ -23,9 +23,12 @@ const MemberSchema = mongoose.Schema(
     },
     membership_status: {
       type: String,
-      required: true,
-      enum: ['member', 'admin'],
-      default: 'member'
+      enum: ['noob', 'member'],
+      default: 'noob'
+    },
+    admin: {
+      type: Boolean,
+      default: false
     }
   }
 );
@@ -34,8 +37,4 @@ MemberSchema.virtual('name').get(function() {
   return `${this.first_name} ${this.surname}`;
 });
 
-MemberSchema.virtual('url').get(function() {
-  return `/members/${this._id}`;
-});
-
-modeule.exports = mongoose.model('Member, MemberSchema');
+module.exports = mongoose.model('Member', MemberSchema);
