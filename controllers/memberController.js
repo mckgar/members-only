@@ -53,16 +53,16 @@ exports.sign_up_post = [
     if (!error.isEmpty()) {
       res.render('sign_up_form', { first_name: req.body.first_name, surname: req.body.surname, username: req.body.username, errors: error.array() });
     } else {
-      const hashedPassword = bcrypt.hash(req.body.password, 10);
-      const member = new Member(
-        {
-          first_name: req.body.first_name,
-          surname: req.body.surname,
-          username: req.body.username,
-          password: hashedPassword
-        }
-      );
       try {
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        const member = new Member(
+          {
+            first_name: req.body.first_name,
+            surname: req.body.surname,
+            username: req.body.username,
+            password: hashedPassword
+          }
+        );
         await member.save()
         res.redirect('/');
       } catch (err) {
@@ -87,3 +87,36 @@ exports.log_out_get = (req, res, next) => {
     res.redirect('/');
   })
 };
+
+exports.join_club_get = (req, res, next) => {
+  if (res.locals.currentUser) {
+    res.render('join_club');
+  } else {
+    res.redirect('log-in');
+  }
+};
+
+exports.join_club_post = [
+  body('password')
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage('Password is required')
+    .escape(),
+  async (req, res, next) => {
+    const error = validationResult({ req });
+    if (!error.isEmpty()) {
+      res.render('join_club', { errors: error.array() })
+    } else {
+      try {
+        if (req.body.password === process.env.CLUB_KEY) {
+          await Member.updateOne({ _id: res.locals.currentUser }, { membership_status: 'member' });
+          res.redirect('/');
+        } else {
+          res.redirect('/join-club');
+        }
+      } catch (err) {
+        next(err);
+      }
+    }
+  }
+]
