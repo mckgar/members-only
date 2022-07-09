@@ -64,7 +64,7 @@ exports.sign_up_post = [
           }
         );
         await member.save()
-        res.redirect('/');
+        res.redirect('/log-in');
       } catch (err) {
         next(err);
       }
@@ -119,4 +119,4 @@ exports.join_club_post = [
       }
     }
   }
-]
+];
