@@ -19,7 +19,7 @@ const MessageSchema = new mongoose.Schema(
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'member',
+      ref: 'Member',
       required: true
     }
   }
