@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <title>Join the club!</title>
+</head>
+<body>
+  <% if (currentUser) { %>
+    <h1>Join the Club!</h1>
+    <form action="" method="post">
+      <label for="password">Password:</label>
+      <input type="password" name="password" id="password">
+      <button type="submit">Submit</button>
+    </form>
+    <% if (!(typeof errors === 'undefined')) { %>
+      <ul>
+        <% for (error of errors) { %>
+          <li><%= error.msg %></li>
+        <% } %>
+      </ul>
+    <% } %>
+  <% } else { %>
+    <h1>Whoa there cowboy</h1>
+    <p>You need to <a href="/log-in">log in</a> first!</p>
+  <% } %>
+</body>
+</html>
