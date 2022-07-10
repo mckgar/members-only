@@ -103,7 +103,7 @@ exports.join_club_post = [
     .withMessage('Password is required')
     .escape(),
   async (req, res, next) => {
-    const error = validationResult({ req });
+    const error = validationResult(req);
     if (!error.isEmpty()) {
       res.render('join_club', { errors: error.array() })
     } else {
@@ -113,6 +113,39 @@ exports.join_club_post = [
           res.redirect('/');
         } else {
           res.redirect('/join-club');
+        }
+      } catch (err) {
+        next(err);
+      }
+    }
+  }
+];
+
+exports.become_admin_get = (req, res, next) => {
+  if (res.locals.currentUser && !res.locals.currentUser.admin) {
+    res.render('admin_form');
+  } else {
+    res.redirect('/');
+  }
+};
+
+exports.become_admin_post = [
+  body('password')
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage('Password is required')
+    .escape(),
+  async (req, res, next) => {
+    const error = validationResult(req);
+    if (!error.isEmpty()) {
+      res.render('admin_form', { errors: error.array() })
+    } else {
+      try {
+        if (req.body.password === process.env.ADMIN_KEY) {
+          await Member.updateOne({ _id: res.locals.currentUser }, { admin: true });
+          res.redirect('/');
+        } else {
+          res.redirect('/secret-admin-page');
         }
       } catch (err) {
         next(err);
