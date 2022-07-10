@@ -43,3 +43,12 @@ exports.new_message_post = [
     }
   }
 ];
+
+exports.delete_message_post = async (req, res, next) => {
+  try {
+    await Message.findByIdAndRemove(req.body.message);
+    res.redirect('/');
+  } catch (err) {
+    next(err);
+  }
+};
