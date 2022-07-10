@@ -9,9 +9,16 @@
 </head>
 <body>
   <%- include('./partials/nav_bar'); %>
-  <% if (currentUser) { %>
-    <h1>WELCOME BACK <%= currentUser.username %></h1>
-  <% }%>
-  <h1>Under Construction</h1>
+  <h1>Messages</h1>
+  <% for (const message of messages) { %>
+    <div class="message">
+      <% if (currentUser && currentUser.membership_status === 'member') { %>
+        <div class="author"><%= message.author.username %></div>
+        <div class="timestamp"><%= message.timestamp_formatted %></div>
+      <% } %>
+      <div class="title"><%= message.title %></div>
+      <div class="content"><%= message.content %></div>
+    </div>
+  <% } %>
 </body>
 </html>
