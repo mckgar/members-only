@@ -1,11 +1,19 @@
 const express = require('express');
 const router = express.Router();
 
+const Message = require('../models/message');
+
 const member_controller = require('../controllers/memberController');
+const message_controller = require('../controllers/messageController');
 
 /* GET home page. */
-router.get('/', (req, res, next) => {
-  res.render('index');
+router.get('/', async (req, res, next) => {
+  try {
+    const messages = await Message.find().populate('author');
+    res.render('index', { messages: messages });
+  } catch (err) {
+    next(err)
+  }
 });
 
 router.get('/sign-up', member_controller.sign_up_get);
@@ -16,5 +24,8 @@ router.get('/log-out', member_controller.log_out_get);
 
 router.get('/join-club', member_controller.join_club_get);
 router.post('/join-club', member_controller.join_club_post);
+
+router.get('/new-message', message_controller.new_message_get);
+router.post('/new-message', message_controller.new_message_post);
 
 module.exports = router;
