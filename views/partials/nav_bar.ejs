@@ -5,6 +5,8 @@
       <li><a href="/">Home</a></li>
       <% if (currentUser.membership_status === 'noob') { %>
         <li><a href="/join-club">Join the Club</a></li>
+      <% } else { %>
+        <li><a href="/new-message">Create New Message</a></li>
       <% } %>
       <li><a href="/log-out">Log Out</a></li>
     </ul>
