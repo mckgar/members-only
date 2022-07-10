@@ -10,6 +10,9 @@
 <body>
   <%- include('./partials/nav_bar'); %>
   <h1>Messages</h1>
+  <% if (currentUser) { %>
+    <h3>Hello, <%= currentUser.username %>!</h3>
+  <% } %>
   <% for (const message of messages) { %>
     <div class="message">
       <% if (currentUser && currentUser.membership_status === 'member') { %>
@@ -18,6 +21,12 @@
       <% } %>
       <div class="title"><%= message.title %></div>
       <div class="content"><%= message.content %></div>
+      <% if (currentUser && currentUser.admin) { %>
+        <form action="/delete-message" method="post">
+          <input type="hidden" name="message" value="<%= message._id %>">
+          <button type="submit" class="delete">DELETE</button>
+        </form>
+      <% } %>
     </div>
   <% } %>
 </body>
